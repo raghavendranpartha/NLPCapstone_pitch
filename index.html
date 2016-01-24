@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NLP next word prediction algorithm</title>
+  <meta charset="utf-8">
+  <meta name="description" content="NLP next word prediction algorithm">
+  <meta name="author" content="Raghavendran Partha">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>NLP next word prediction algorithm</h1>
+    <h2>Data Science Capstone Project</h2>
+    <p>Raghavendran Partha<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Objective</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The goal of the project is to create an application (found <a href = "https://raghavpartha.shinyapps.io/NLPshinyapp/"> here </a>) that serves as a next-word prediction algorithm</li>
+<li>Based on the user input, an English phrase, the algorithm predicts the next-word of the phrase</li>
+<li>The algorithm implemented here is the <a href = "http://www.aclweb.org/anthology/D07-1090.pdf">stupid-backoff </a> algorithm, popular in the field of Natural Language Processing</li>
+<li>The algorithm is trained on three large English language datasets freely available at <a href = "http://www.corpora.heliohost.org/statistics.html#EnglishUSCorpus"> HC corpora </a>, and consists of English sentences and phrases from blogs, twitter, and news articles</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Data cleaning</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>The full dataset is not directly amenable to constructing a next-word prediction algorithm considering its size. </p>
+
+<ul>
+<li>Randomly sample 33% of each dataset and use this as the corpus for training the next-word prediction algorithm. </li>
+</ul></li>
+<li><p>Data cleaning</p>
+
+<ul>
+<li>Separating sentences on the same line into distinct lines</li>
+<li>Removing any punctuation marks, trailing and heading whitespaces</li>
+<li>Removing non-alphabetical words such as emoticons, and converting all words to their lowercase forms</li>
+</ul></li>
+<li><p>The three cleaned datasets are then combined into one large corpus</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>ngrams model and stupid backoff</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Construct ngrams (n consecutive words) of sizes 1, 2, 3, and 4, from the training dataset, and store the prediction for each ngram as the word succeeding the ngram in the dataset</li>
+<li>Create a frequency table, which stores the number of times each prediction is assigned to a particular ngram -&gt; database of ngrams</li>
+<li>Stupid backoff
+
+<ul>
+<li>Split the query phrase into ngrams of sizes 1 to 4, such that these ngrams end with the last word of the query </li>
+<li>Starting with the largest ngram, lookup the presence of the ngram in our database</li>
+<li>The next-word prediction is simply the most frequently occuring word succeeding the ngram </li>
+<li>If the ngram is not present, delete the first word of ngram leading to a n-1 gram and lookup in database</li>
+<li>Repeat till no ngram matches, in which case the most frequent word in the dataset is returned</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Sample app usage</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Enter the text phrase in the first input section on the left panel</li>
+<li>Use the slider to select the maximum number of predictions you want the algorithm to make</li>
+<li>Click Predict!</li>
+</ul>
+
+<div style='text-align: center;'>
+    <img height='400' src='scrshot.png' />
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Objective'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data cleaning'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='ngrams model and stupid backoff'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Sample app usage'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
